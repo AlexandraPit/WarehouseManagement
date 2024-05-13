@@ -1,70 +1,55 @@
 package org.example.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 
 public class Client {
-    private final IntegerProperty id = new SimpleIntegerProperty();
-    private final StringProperty name = new SimpleStringProperty();
-    private final StringProperty phone = new SimpleStringProperty();
-    private final StringProperty email = new SimpleStringProperty();
+    private  int id ;
+    private String name ;
+    private String phone;
+    private String email;
 
     public Client(int id, String name, String phone, String email) {
-        setId(id);
-        setName(name);
-        setPhone(phone);
-        setEmail(email);
+       this.id=id;
+       this.name=name;
+       this.email=email;
+       this.phone=phone;
     }
+    public Client( String name, String phone, String email) {
 
-    public IntegerProperty idProperty() {
-        return id;
+        this.name=name;
+        this.email=email;
+        this.phone=phone;
     }
 
     public int getId() {
-        return id.get();
-    }
-
-    public void setId(int id) {
-        this.id.set(id);
-    }
-
-    public void setName(String name) {
-        this.name.set(name);
-    }
-    public void setPhone(String phone)
-    {
-        this.phone.set(phone);
-    }
-    public void setEmail(String email)
-    {
-        this.email.set(email);
+        return id;
     }
 
     public String getEmail() {
-        return email.get();
-    }
-
-    public String getName() {
-        return name.get();
-    }
-
-    public String getPhone() {
-        return phone.get();
-    }
-
-    public StringProperty emailProperty() {
         return email;
     }
 
-    public StringProperty nameProperty() {
+    public String getName() {
         return name;
     }
 
-    public StringProperty phoneProperty() {
+    public String getPhone() {
         return phone;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhone(String phone) {
+
+    }
 }

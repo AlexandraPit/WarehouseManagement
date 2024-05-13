@@ -1,6 +1,7 @@
 package org.example.presentation;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -12,6 +13,7 @@ import javafx.event.ActionEvent;
 
 import javax.swing.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class ProductController {
@@ -75,8 +77,13 @@ public class ProductController {
     }
     public void handleDelete(ActionEvent e)
     {
-        int id=Integer.parseInt(text_id.getText());
-        productBLL.deleteProduct(id);
+       try{ int id=Integer.parseInt(text_id.getText());
+        productBLL.deleteProduct(id);}
+       catch(NumberFormatException err)
+       {
+           showAlert("No id inserted", "Please insert the id of the product to be edited!");
+           return;
+       }
     }
     public void handleEdit(ActionEvent e)
     {
@@ -88,5 +95,12 @@ public class ProductController {
         productBLL.editProduct(product ,id);
     }
 
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
 }

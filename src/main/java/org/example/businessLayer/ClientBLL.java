@@ -1,5 +1,7 @@
 package org.example.businessLayer;
 
+import javafx.scene.control.Alert;
+
 import org.example.businessLayer.validators.EmailValidator;
 import org.example.businessLayer.validators.Validator;
 import org.example.dataAccessLayer.ClientDAO;
@@ -19,15 +21,10 @@ public class ClientBLL {
 
     private ClientDAO clientDAO;
 
-    /**
-     * Constructs a new ClientBLL with the specified database connection.
-     *
-     * @param connection the database connection
-     */
-    public ClientBLL(Connection connection) {
 
+    public ClientBLL() {
         validators = new ArrayList<Validator<Client>>();
-        validators.add(new EmailValidator());
+       validators.add(new EmailValidator());
 
         clientDAO=new ClientDAO();
     }
@@ -49,17 +46,22 @@ public class ClientBLL {
         return client;
     }
 
-    public int insertClient(Client client) throws SQLException {
-        for (Validator<Client> v : validators) {
-            v.validate(client);
+    public void insertClient(Client client)  {
+        try {
+            for (Validator<Client> v : validators) {
+                v.validate(client);
+            }
+            clientDAO.insert(client);
+        } catch (IllegalArgumentException e) {
+            // Validation failed, show error message
+            showErrorAlert("Validation Error", "Invalid email format");
         }
-        return clientDAO.insert(client);
     }
 
-    public void editClient(Client client){
+    public void editClient(Client client, int id){
         for(Validator<Client> item : validators)
             item.validate(client);
-        clientDAO.update( client);
+        clientDAO.update( client, id);
     }
 
     public void deleteClient(int id){
@@ -67,7 +69,14 @@ public class ClientBLL {
     }
 
     public List<Client> viewAllClients(){
-        return clientDAO.viewAll();
+        return clientDAO.getAllClients();
     }
 
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

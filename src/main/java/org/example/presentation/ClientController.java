@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.example.businessLayer.ClientBLL;
 import org.example.dataAccessLayer.ClientDAO;
 import org.example.model.Client;
 import org.example.model.Product;
@@ -24,18 +25,12 @@ public class ClientController {
 
     @FXML
     private TableView<Client> clientTableView;
-    @FXML
-    private TableColumn<Client, Integer> c_id;
-    @FXML
-    private TableColumn<Client, String> name;
-    @FXML
-    private TableColumn<Client, String> phone;
-    @FXML
-    private TableColumn<Client, String> email;
 
     private ObservableList<Client> clients; // Assuming you have a reference to the list of clients
-    ClientDAO clientDAO=new ClientDAO();
+    ClientBLL clientBLL=new ClientBLL();
     public void initialize() {
+
+
         generateTableColumns(Client.class);
     }
 
@@ -61,42 +56,48 @@ public class ClientController {
     }
 
 
-    @FXML
-    private void handleAddClient(ActionEvent event) {
+
+
+    public void handleAddClient(ActionEvent event) {
+
+        String name=text_name.getText();
+        String phone=text_phone.getText();
+        String email=text_email.getText();
+        Client client=new Client(name,phone,email);
+        clientBLL.insertClient(client);
+
+    }
+
+
+    public void handleEditClient(ActionEvent event) {
         int id=Integer.parseInt(text_id.getText());
         String name=text_name.getText();
         String phone=text_phone.getText();
         String email=text_email.getText();
-        Client client=new Client(id,name,phone,email);
-        clientDAO.insert(client);
-
+        Client client=new Client(name,phone,email);
+        clientBLL.editClient(client ,id);
     }
 
-    @FXML
-    public void handleEditClient(ActionEvent event) {
-        Client selectedClient = clientTableView.getSelectionModel().getSelectedItem();
-        if (selectedClient != null) {
-            // Implementation for editing the selected client
-        } else {
-            showAlert("No Client Selected", "Please select a client to edit.");
-        }
-    }
 
-    @FXML
     public void handleDeleteClient(ActionEvent event) {
-        Client selectedClient = clientTableView.getSelectionModel().getSelectedItem();
-        if (selectedClient != null) {
-            // Implementation for deleting the selected client
-        } else {
-            showAlert("No Client Selected", "Please select a client to delete.");
+        try{int id=Integer.parseInt(text_id.getText());
+        clientBLL.deleteClient(id);}
+         catch(NumberFormatException err)
+        {
+            showAlert("No id inserted", "Please insert the id of the order to be edited!");
+            return;
         }
     }
+
 
     @FXML
     public void handleViewAll(ActionEvent event) {
-        List<Client> clients = clientDAO.viewAll(); // Assuming you have a method to retrieve all products from your database
-        populateTable(clients);
+
+        clientTableView.getItems().clear(); // Clear existing items in the table view
+        List<Client> clients = clientBLL.viewAllClients(); // Assuming you have a method to retrieve all clients from your database
+        populateTable(clients, this.clientTableView);
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -106,7 +107,9 @@ public class ClientController {
         alert.showAndWait();
     }
 
-    public void populateTable(List<Client> clients) {
-        clientTableView.getItems().addAll(clients);
+    public void populateTable(List<Client> clients, TableView<Client>clientTableView) {
+        clientTableView.getItems().clear(); // Clear the table first
+        clientTableView.getItems().addAll(clients); // Add the retrieved clients to the table
     }
+
 }

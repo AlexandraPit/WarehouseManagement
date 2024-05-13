@@ -8,10 +8,9 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.ClientController">
    <children>
-      <TableView fx:id="clientTableView" layoutX="42.0" layoutY="32.0" prefHeight="277.0" prefWidth="323.0" />
       <Button layoutX="75.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleAddClient" text="Add new client" />
       <Button layoutX="204.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleEditClient" text="Edit client" />
-      <Button layoutX="477.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleViewAll" text="View all" />
+      <Button fx:id="viewAllBtn" layoutX="477.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleViewAll" text="View all" />
       <Button layoutX="339.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleDeleteClient" text="Delete client" />
       <TextField fx:id="text_id" layoutX="431.0" layoutY="32.0" />
       <TextField fx:id="text_name" layoutX="432.0" layoutY="79.0" />
@@ -21,5 +20,6 @@
       <Label layoutX="376.0" layoutY="83.0" text="Name" />
       <Label layoutX="378.0" layoutY="132.0" text="Phone" />
       <Label layoutX="381.0" layoutY="192.0" text="Email" />
+      <TableView fx:id="clientTableView" layoutX="14.0" layoutY="28.0" prefHeight="253.0" prefWidth="350.0" />
    </children>
 </AnchorPane>

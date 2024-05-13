@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ProductBLL {
-    // private List<Validator<Product>> validators;
     private ProductDAO productDAO;
 
     public ProductBLL(){
@@ -23,14 +22,11 @@ public class ProductBLL {
     }
 
     public void insertProduct(Product product){
-//        for(Validator<Product> item : validators)
-//            item.validate(product);
+
         productDAO.insert(product);
     }
 
     public void editProduct(Product product, int id){
-//        for(Validator<Product> item : validators)
-//            item.validate(product);
         productDAO.update(product, id);
     }
 
