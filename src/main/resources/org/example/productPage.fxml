@@ -5,21 +5,43 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.ProductController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFECB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.ProductController">
    <children>
-      <TableView fx:id="productTableView" layoutX="52.0" layoutY="42.0" prefHeight="277.0" prefWidth="323.0" />
-      <Button layoutX="85.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleAdd" text="Add new client" />
-      <Button layoutX="214.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleEdit" text="Edit client" />
-      <Button layoutX="487.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleViewAll" text="View all" />
-      <Button layoutX="349.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleDelete" text="Delete client" />
-      <TextField fx:id="text_id" layoutX="441.0" layoutY="42.0" />
-      <TextField fx:id="text_name" layoutX="442.0" layoutY="89.0" />
-      <TextField fx:id="text_price" layoutX="443.0" layoutY="138.0" />
-      <TextField fx:id="text_stock" layoutX="444.0" layoutY="198.0" />
-      <Label layoutX="390.0" layoutY="46.0" text="Id" />
-      <Label layoutX="386.0" layoutY="93.0" text="Name" />
-      <Label layoutX="388.0" layoutY="142.0" text="Price" />
-      <Label layoutX="391.0" layoutY="202.0" text="Stock" />
+      <TextField fx:id="text_id" layoutX="436.0" layoutY="46.0" />
+      <TextField fx:id="text_name" layoutX="436.0" layoutY="89.0" />
+      <TextField fx:id="text_price" layoutX="436.0" layoutY="138.0" />
+      <TextField fx:id="text_stock" layoutX="436.0" layoutY="185.0" />
+      <Label layoutX="400.0" layoutY="50.0" text="Id" />
+      <Label layoutX="389.0" layoutY="93.0" text="Name" />
+      <Label layoutX="392.0" layoutY="142.0" text="Price" />
+      <Label layoutX="390.0" layoutY="189.0" text="Stock" />
+      <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #FEA82F;" text="Back" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="12.0" />
+         </font>
+      </Button>
+      <TableView fx:id="productTableView" layoutX="14.0" layoutY="46.0" prefHeight="253.0" prefWidth="350.0" style="-fx-background-color: #FEA82F;" />
+      <Button layoutX="20.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="26.0" prefWidth="133.0" style="-fx-background-color: #FEA82F;" text="Add new Product" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="13.0" />
+         </font>
+      </Button>
+      <Button layoutX="173.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #FEA82F;" text="Edit Product" textFill="#7a4827">
+         <font>
+            <Font name="Algerian" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="467.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleViewAll" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #FEA82F;" text="View all" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="310.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="26.0" prefWidth="134.0" style="-fx-background-color: #FEA82F;" text="Delete product" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

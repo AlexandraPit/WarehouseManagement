@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import javax.swing.*;
+import java.io.IOException;
 
 public class MainController {
 
@@ -16,26 +16,21 @@ public class MainController {
     private Button btnClient, btnProduct, btnOrder;
 
     @FXML
-    private void handleButton(ActionEvent event) throws Exception{
+    private void handleButton(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
-        if(event.getSource() == btnClient){
+        if (event.getSource() == btnClient) {
             stage = (Stage) btnClient.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("/org/example/clientPage.fxml"));
-        }
-        else{
-            if(event.getSource() == btnProduct){
-                stage = (Stage) btnProduct.getScene().getWindow();
-                root = FXMLLoader.load(getClass().getResource("/org/example/productPage.fxml"));
-            }
-            else{
-                stage = (Stage) btnOrder.getScene().getWindow();
-                root = FXMLLoader.load(getClass().getResource("/org/example/orderPage.fxml"));
-            }
+        } else if (event.getSource() == btnProduct) {
+            stage = (Stage) btnProduct.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("/org/example/productPage.fxml"));
+        } else {
+            stage = (Stage) btnOrder.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("/org/example/orderPage.fxml"));
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
-
 }

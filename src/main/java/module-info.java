@@ -4,6 +4,8 @@ module org.example.pt2024_30423_pitaru_alexandra_assignment_3 {
     requires java.logging;
     requires java.sql;
     requires java.desktop;
+    requires org.apache.pdfbox;
+    requires itextpdf;
 
 
     opens org.example.model to javafx.base;

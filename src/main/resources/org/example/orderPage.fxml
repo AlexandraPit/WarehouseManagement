@@ -6,20 +6,22 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="656.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.OrderController">
+<AnchorPane prefHeight="656.0" prefWidth="738.0" style="-fx-background-color: #FFFECB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.presentation.OrderController">
    <children>
       <Label fx:id="stockErr" layoutX="500.0" layoutY="277.0" prefHeight="18.0" prefWidth="30.0" />
-      <TableView fx:id="orderTableView" layoutX="52.0" layoutY="42.0" prefHeight="277.0" prefWidth="323.0" />
-      <Button layoutX="85.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleAdd" text="Place Order" />
-      <Button layoutX="214.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleEdit" text="Edit order" />
-      <Button layoutX="487.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleViewAll" text="View all" />
-      <Button layoutX="349.0" layoutY="355.0" mnemonicParsing="false" onAction="#handleDelete" text="Delete order" />
-      <TextField fx:id="text_oid" layoutX="441.0" layoutY="42.0" />
-      <TextField fx:id="text_quantity" layoutX="444.0" layoutY="198.0" />
-      <Label layoutX="390.0" layoutY="46.0" text="Id" />
-      <Label layoutX="391.0" layoutY="202.0" text="Quantity" />
-      <TableView fx:id="clientTableView" layoutX="52.0" layoutY="406.0" prefHeight="216.0" prefWidth="323.0">
+      <TextField fx:id="text_oid" layoutX="475.0" layoutY="42.0" />
+      <TextField fx:id="text_quantity" layoutX="200.0" layoutY="605.0" />
+      <Label layoutX="445.0" layoutY="46.0" text="Id" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="14.0" />
+         </font></Label>
+      <Label layoutX="121.0" layoutY="609.0" text="Quantity" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="14.0" />
+         </font></Label>
+      <TableView fx:id="clientTableView" layoutX="27.0" layoutY="377.0" prefHeight="216.0" prefWidth="323.0" style="-fx-background-color: #FEA82F;">
          <columns>
             <TableColumn fx:id="id" prefWidth="75.0" text="c_id" />
             <TableColumn fx:id="name" prefWidth="75.0" text="name" />
@@ -27,7 +29,7 @@
             <TableColumn fx:id="email" prefWidth="96.79997558593749" text="email" />
          </columns>
       </TableView>
-      <TableView fx:id="productTableView" layoutX="416.0" layoutY="406.0" prefHeight="216.0" prefWidth="323.0">
+      <TableView fx:id="productTableView" layoutX="388.0" layoutY="377.0" prefHeight="216.0" prefWidth="323.0" style="-fx-background-color: #FEA82F;">
          <columns>
             <TableColumn fx:id="p_id" prefWidth="75.0" text="p_id" />
             <TableColumn fx:id="p_name" prefWidth="88.800048828125" text="name" />
@@ -35,5 +37,36 @@
             <TableColumn fx:id="stock" prefWidth="76.7999267578125" text="stock" />
          </columns>
       </TableView>
+      <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #FEA82F;" text="Back" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="12.0" />
+         </font>
+      </Button>
+      <TableView fx:id="orderTableView" layoutX="14.0" layoutY="46.0" prefHeight="262.0" prefWidth="350.0" style="-fx-background-color: #FEA82F;" />
+      <Button layoutX="391.0" layoutY="604.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #FEA82F;" text="Add new client" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="13.0" />
+         </font>
+      </Button>
+      <Button layoutX="411.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #FEA82F;" text="Edit client" textFill="#7a4827">
+         <font>
+            <Font name="Algerian" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="129.0" layoutY="315.0" mnemonicParsing="false" onAction="#handleViewAll" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #FEA82F;" text="View all" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="550.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleDelete" style="-fx-background-color: #FEA82F;" text="Delete client" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="484.0" layoutY="315.0" mnemonicParsing="false" onAction="#handleGenerateBills" style="-fx-background-color: #FEA82F;" text="Generate Bills" textFill="#7b4927">
+         <font>
+            <Font name="Algerian" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

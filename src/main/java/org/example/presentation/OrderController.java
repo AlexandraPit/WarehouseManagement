@@ -1,60 +1,69 @@
 package org.example.presentation;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import org.example.businessLayer.ClientBLL;
 import org.example.businessLayer.OrderBLL;
 import org.example.businessLayer.ProductBLL;
 import org.example.model.Client;
-import org.example.model.Order;
+import org.example.model.Orders;
 import org.example.model.Product;
+import org.example.model.Bill;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class responsible for managing orders in the application.
+ */
 public class OrderController {
     @FXML
-    private TableView<Order> orderTableView;
+    private TableView<Orders> orderTableView;
     @FXML
     private TableView<Client> clientTableView;
     @FXML
     private TableView<Product> productTableView;
     @FXML
-    private TableColumn<Client, Integer>id;
+    private TableColumn<Client, Integer> id;
     @FXML
-    private TableColumn<Client, String>name;
+    private TableColumn<Client, String> name;
     @FXML
-    private TableColumn<Client, String>phone;
+    private TableColumn<Client, String> phone;
     @FXML
-    private TableColumn<Client, String>email;
+    private TableColumn<Client, String> email;
     @FXML
-    private TableColumn<Client, Integer>p_id;
+    private TableColumn<Client, Integer> p_id;
     @FXML
-    private TableColumn<Client, String>p_name;
+    private TableColumn<Client, String> p_name;
     @FXML
-    private TableColumn<Client, Double>price;
+    private TableColumn<Client, Double> price;
     @FXML
-    private TableColumn<Client, Integer>stock;
-
+    private TableColumn<Client, Integer> stock;
+    @FXML
+    private Button back;
     @FXML
     private TextField text_oid, text_cid, text_pid, text_quantity;
 
-    OrderBLL orderBLL = new OrderBLL();
-    ClientBLL clientBLL=new ClientBLL();
-    ProductBLL productBLL=new ProductBLL();
+    private final OrderBLL orderBLL = new OrderBLL();
+    private final ClientBLL clientBLL = new ClientBLL();
+    private final ProductBLL productBLL = new ProductBLL();
 
-
+    /**
+     * Initializes the order management interface.
+     */
     public void initialize() {
         // Generate table columns dynamically using reflection
-        generateTableColumns(Order.class);
+        generateTableColumns(Orders.class);
 
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -68,18 +77,17 @@ public class OrderController {
         stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
 
         populateProductTable(productTableView, productBLL.viewAllProducts());
-
-
     }
-public void refreshProductTable(ProductBLL productBLL){
 
-}
 
-    // Method to generate table columns dynamically using reflection
+    /**
+     * Generates table columns dynamically using reflection.
+     * @param clazz the class to generate columns for
+     */
     private void generateTableColumns(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
-            TableColumn<Order, ?> column = null;
+            TableColumn<Orders, ?> column = null;
             if (field.getType() == int.class) {
                 column = new TableColumn<>(field.getName());
                 column.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
@@ -93,7 +101,7 @@ public void refreshProductTable(ProductBLL productBLL){
 
             if (column != null) {
 
-                    orderTableView.getColumns().add(column);
+                orderTableView.getColumns().add(column);
 
 
             }
@@ -101,16 +109,22 @@ public void refreshProductTable(ProductBLL productBLL){
     }
 
 
-    // Method to populate table with data
-    public void populateTable(List<Order> products) {
+    /**
+     * Populates the table with the given list of products.
+     * @param products the list of products to populate the table with
+     */
+    public void populateTable(List<Orders> products) {
         orderTableView.getItems().addAll(products);
     }
 
-
+    /**
+     * Handles the action event for viewing all orders.
+     * @param actionEvent the ActionEvent triggering the action
+     */
     public void handleViewAll(ActionEvent actionEvent) {
 
         orderTableView.getItems().clear();
-        List<Order> orders = orderBLL.getAllOrders(); // Assuming you have a method to retrieve all products from your database
+        List<Orders> orders = orderBLL.getAllOrders(); // Assuming you have a method to retrieve all products from your database
         populateTable(orders);
     }
     public void handleAdd(ActionEvent e)
@@ -130,10 +144,10 @@ public void refreshProductTable(ProductBLL productBLL){
         int quantity=Integer.parseInt(text_quantity.getText());
         if(quantity>selectedProduct.getStock())
         {
-           showAlert("Not enough products in stock!", "The max quantity you can buy is "+selectedProduct.getStock());
+            showAlert("Not enough products in stock!", "The max quantity you can buy is "+selectedProduct.getStock());
         }else {
-            Order order = new Order(c_id, p_id, quantity);
-            orderBLL.addOrder(order);
+            Orders orders = new Orders(c_id, p_id, quantity);
+            orderBLL.addOrder(orders);
 
             int updatedStock = selectedProduct.getStock() - quantity;
             selectedProduct.setStock(updatedStock);
@@ -144,6 +158,15 @@ public void refreshProductTable(ProductBLL productBLL){
         }
 
     }
+    public void handleGenerateBills()
+    {
+        ClientBLL clientBLL=new ClientBLL();
+        OrderBLL orderBLL=new OrderBLL();
+        List<Client> clients = clientBLL.viewAllClients();
+        for (Client client : clients) {
+            List<Orders> clientOrders = orderBLL.getAllOrders();
+            Bill bill = new Bill(client.getId(), clientOrders);
+        }}
     public void handleDelete(ActionEvent e)
     {
         int id=Integer.parseInt(text_oid.getText());
@@ -163,18 +186,18 @@ public void refreshProductTable(ProductBLL productBLL){
         int c_id = selectedClient.getId();
         int p_id=selectedProduct.getP_id();
         int quantity=Integer.parseInt(text_quantity.getText());
-        Order order = new Order(c_id,p_id,quantity);
-        orderBLL.editOrder(order ,id);
+        Orders orders = new Orders(c_id,p_id,quantity);
+        orderBLL.editOrder(orders,id);
     }
 
 
     private void populateClientTable(TableView<Client> tableView, List<Client> clients) {
 
-            ObservableList<Client> clientData = FXCollections.observableArrayList(clients);
-            tableView.setItems(clientData);
+        ObservableList<Client> clientData = FXCollections.observableArrayList(clients);
+        tableView.setItems(clientData);
 
 
-}
+    }
     private void populateProductTable(TableView<Product> tableView, List<Product> products) {
 
         ObservableList<Product> productData = FXCollections.observableArrayList(products);
@@ -189,5 +212,15 @@ public void refreshProductTable(ProductBLL productBLL){
         alert.setContentText(message);
         alert.showAndWait();
     }
+    public void goBack() throws IOException {
+        Stage stage;
+        Parent root;
+        stage = (Stage) back.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("/org/example/mainPage.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
 }
