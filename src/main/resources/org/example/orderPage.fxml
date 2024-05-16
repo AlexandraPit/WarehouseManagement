@@ -43,12 +43,12 @@
          </font>
       </Button>
       <TableView fx:id="orderTableView" layoutX="14.0" layoutY="46.0" prefHeight="262.0" prefWidth="350.0" style="-fx-background-color: #FEA82F;" />
-      <Button layoutX="391.0" layoutY="604.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #FEA82F;" text="Add new client" textFill="#7b4927">
+      <Button layoutX="391.0" layoutY="604.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #FEA82F;" text="Add new order" textFill="#7b4927">
          <font>
             <Font name="Algerian" size="13.0" />
          </font>
       </Button>
-      <Button layoutX="411.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #FEA82F;" text="Edit client" textFill="#7a4827">
+      <Button layoutX="411.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #FEA82F;" text="Edit Order" textFill="#7a4827">
          <font>
             <Font name="Algerian" size="14.0" />
          </font>
@@ -58,7 +58,7 @@
             <Font name="Algerian" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="550.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleDelete" style="-fx-background-color: #FEA82F;" text="Delete client" textFill="#7b4927">
+      <Button layoutX="550.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleDelete" style="-fx-background-color: #FEA82F;" text="Delete order" textFill="#7b4927">
          <font>
             <Font name="Algerian" size="14.0" />
          </font>

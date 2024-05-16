@@ -1,8 +1,2 @@
 module:org.example.pt2024_30423_pitaru_alexandra_assignment_3
-org.example
-org.example.businessLayer
-org.example.businessLayer.validators
-org.example.connection
-org.example.dataAccessLayer
 org.example.model
-org.example.presentation

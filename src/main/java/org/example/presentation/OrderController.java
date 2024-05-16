@@ -52,7 +52,7 @@ public class OrderController {
     @FXML
     private Button back;
     @FXML
-    private TextField text_oid, text_cid, text_pid, text_quantity;
+    private TextField text_oid, text_quantity;
 
     private final OrderBLL orderBLL = new OrderBLL();
     private final ClientBLL clientBLL = new ClientBLL();
@@ -82,6 +82,7 @@ public class OrderController {
 
     /**
      * Generates table columns dynamically using reflection.
+     *
      * @param clazz the class to generate columns for
      */
     private void generateTableColumns(Class<?> clazz) {
@@ -111,6 +112,7 @@ public class OrderController {
 
     /**
      * Populates the table with the given list of products.
+     *
      * @param products the list of products to populate the table with
      */
     public void populateTable(List<Orders> products) {
@@ -119,6 +121,7 @@ public class OrderController {
 
     /**
      * Handles the action event for viewing all orders.
+     *
      * @param actionEvent the ActionEvent triggering the action
      */
     public void handleViewAll(ActionEvent actionEvent) {
@@ -127,84 +130,81 @@ public class OrderController {
         List<Orders> orders = orderBLL.getAllOrders(); // Assuming you have a method to retrieve all products from your database
         populateTable(orders);
     }
-    public void handleAdd(ActionEvent e)
-    {
+
+    public void handleAdd(ActionEvent e) {
         Client selectedClient = clientTableView.getSelectionModel().getSelectedItem();
         if (selectedClient == null) {
-            showAlert("No client selected","Please select an existing client!");
+            showAlert("No client selected", "Please select an existing client!");
             return;
         }
         Product selectedProduct = productTableView.getSelectionModel().getSelectedItem();
         if (selectedProduct == null) {
-            showAlert("No product selected","Please select an existing product!");
+            showAlert("No product selected", "Please select an existing product!");
             return;
         }
         int c_id = selectedClient.getId();
-        int p_id=selectedProduct.getP_id();
-        int quantity=Integer.parseInt(text_quantity.getText());
-        if(quantity>selectedProduct.getStock())
-        {
-            showAlert("Not enough products in stock!", "The max quantity you can buy is "+selectedProduct.getStock());
-        }else {
+        int p_id = selectedProduct.getP_id();
+        int quantity = Integer.parseInt(text_quantity.getText());
+        if (quantity > selectedProduct.getStock()) {
+            showAlert("Not enough products in stock!", "The max quantity you can buy is " + selectedProduct.getStock());
+        } else {
             Orders orders = new Orders(c_id, p_id, quantity);
             orderBLL.addOrder(orders);
 
             int updatedStock = selectedProduct.getStock() - quantity;
             selectedProduct.setStock(updatedStock);
 
-            // Update the product's stock in the database
             productBLL.editProduct(selectedProduct, selectedProduct.getP_id());
             populateProductTable(productTableView, productBLL.viewAllProducts());
         }
 
     }
-    public void handleGenerateBills()
-    {
-        ClientBLL clientBLL=new ClientBLL();
-        OrderBLL orderBLL=new OrderBLL();
+
+    public void handleGenerateBills() {
+        ClientBLL clientBLL = new ClientBLL();
         List<Client> clients = clientBLL.viewAllClients();
-        for (Client client : clients) {
-            List<Orders> clientOrders = orderBLL.getAllOrders();
-            Bill bill = new Bill(client.getId(), clientOrders);
-        }}
-    public void handleDelete(ActionEvent e)
-    {
-        int id=Integer.parseInt(text_oid.getText());
+        Bill bill = new Bill();
+        bill.generateBillsForClients(clients);
+
+        showAlert("Success!", "Bills were generated in the pdf Bills");
+    }
+
+    public void handleDelete(ActionEvent e) {
+        int id = Integer.parseInt(text_oid.getText());
 
         orderBLL.deleteOrder(id);
     }
-    public void handleEdit(ActionEvent e)
-    {
-        int id=Integer.parseInt(text_oid.getText());
+
+    public void handleEdit(ActionEvent e) {
+        int id = Integer.parseInt(text_oid.getText());
         Client selectedClient = clientTableView.getSelectionModel().getSelectedItem();
         if (selectedClient == null) {
-            // Handle case where no client is selected
-            // You may want to display a message to the user indicating that a client must be selected
+            showAlert("Error", "No client was selected.");
             return;
         }
         Product selectedProduct = productTableView.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) {
+            showAlert("Error", "No product was selected.");
+            return;
+        }
         int c_id = selectedClient.getId();
-        int p_id=selectedProduct.getP_id();
-        int quantity=Integer.parseInt(text_quantity.getText());
-        Orders orders = new Orders(c_id,p_id,quantity);
-        orderBLL.editOrder(orders,id);
+        int p_id = selectedProduct.getP_id();
+        int quantity = Integer.parseInt(text_quantity.getText());
+        Orders orders = new Orders(c_id, p_id, quantity);
+        orderBLL.editOrder(orders, id);
     }
 
 
     private void populateClientTable(TableView<Client> tableView, List<Client> clients) {
-
         ObservableList<Client> clientData = FXCollections.observableArrayList(clients);
         tableView.setItems(clientData);
-
-
     }
-    private void populateProductTable(TableView<Product> tableView, List<Product> products) {
 
+    private void populateProductTable(TableView<Product> tableView, List<Product> products) {
         ObservableList<Product> productData = FXCollections.observableArrayList(products);
         tableView.setItems(productData);
-
-
     }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -212,6 +212,7 @@ public class OrderController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     public void goBack() throws IOException {
         Stage stage;
         Parent root;

@@ -43,11 +43,6 @@
             <artifactId>postgresql</artifactId>
             <version>42.7.1</version> <!-- Replace with the latest version -->
         </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk18on</artifactId>
-            <version>1.76</version>
-        </dependency>
 
         <dependency>
             <groupId>com.itextpdf</groupId>

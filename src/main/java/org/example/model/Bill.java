@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 /**
  * Represents a bill for a client's orders.
  */
-public record Bill(int clientId, List<Orders> orders) {
+public record Bill() {
     private static final Logger LOGGER = Logger.getLogger(Bill.class.getName());
     private static final String SELECT_ORDERS_BY_CLIENT_ID = "SELECT * FROM orders WHERE client_id = ?";
     private static final ClientBLL clientBLL = new ClientBLL();
@@ -36,7 +36,7 @@ public record Bill(int clientId, List<Orders> orders) {
     public static void generateBillsForClients(List<Client> clients) {
         Document document = new Document();
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("AllBills.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream("Bills.pdf"));
             document.open();
 
             for (Client client : clients) {
@@ -78,4 +78,5 @@ public record Bill(int clientId, List<Orders> orders) {
             }
         }
     }
+
 }

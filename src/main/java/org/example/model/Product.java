@@ -18,8 +18,8 @@ public class Product {
      * @param price     the price of the product
      * @param stock     the stock quantity of the product
      */
-    public Product(int productId, String name, double price, int stock) {
-        this.p_id = productId;
+    public Product(int p_id, String name, double price, int stock) {
+        this.p_id = p_id;
         this.name = name;
         this.price = price;
         this.stock = stock;
