@@ -10,17 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.example.businessLayer.BillGenerator;
 import org.example.businessLayer.ClientBLL;
 import org.example.businessLayer.OrderBLL;
 import org.example.businessLayer.ProductBLL;
 import org.example.model.Client;
 import org.example.model.Orders;
 import org.example.model.Product;
-import org.example.model.Bill;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -142,36 +141,30 @@ public class OrderController {
             showAlert("No product selected", "Please select an existing product!");
             return;
         }
+
         int c_id = selectedClient.getId();
         int p_id = selectedProduct.getP_id();
         int quantity = Integer.parseInt(text_quantity.getText());
-        if (quantity > selectedProduct.getStock()) {
-            showAlert("Not enough products in stock!", "The max quantity you can buy is " + selectedProduct.getStock());
-        } else {
+
+        try {
             Orders orders = new Orders(c_id, p_id, quantity);
             orderBLL.addOrder(orders);
-
-            int updatedStock = selectedProduct.getStock() - quantity;
-            selectedProduct.setStock(updatedStock);
-
-            productBLL.editProduct(selectedProduct, selectedProduct.getP_id());
             populateProductTable(productTableView, productBLL.viewAllProducts());
+        } catch (IllegalArgumentException ex) {
+            showAlert("Not enough products in stock!", "The max quantity you can buy is " + selectedProduct.getStock());
         }
-
     }
 
     public void handleGenerateBills() {
-        ClientBLL clientBLL = new ClientBLL();
         List<Client> clients = clientBLL.viewAllClients();
-        Bill bill = new Bill();
-        bill.generateBillsForClients(clients);
+        BillGenerator billGenerator=new BillGenerator();
+        billGenerator.generateBillsForClients(clients);
 
         showAlert("Success!", "Bills were generated in the pdf Bills");
     }
 
     public void handleDelete(ActionEvent e) {
         int id = Integer.parseInt(text_oid.getText());
-
         orderBLL.deleteOrder(id);
     }
 
@@ -187,11 +180,18 @@ public class OrderController {
             showAlert("Error", "No product was selected.");
             return;
         }
+
         int c_id = selectedClient.getId();
         int p_id = selectedProduct.getP_id();
         int quantity = Integer.parseInt(text_quantity.getText());
-        Orders orders = new Orders(c_id, p_id, quantity);
-        orderBLL.editOrder(orders, id);
+
+        try {
+            Orders orders = new Orders(c_id, p_id, quantity);
+            orderBLL.editOrder(orders, id);
+            populateProductTable(productTableView, productBLL.viewAllProducts());
+        } catch (IllegalArgumentException ex) {
+            showAlert("Not enough products in stock!", "The max quantity you can buy is " + selectedProduct.getStock());
+        }
     }
 
 
